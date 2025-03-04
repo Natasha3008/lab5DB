@@ -1,0 +1,77 @@
+-- Создание базы данных
+CREATE OR REPLACE PROCEDURE createDatabase()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    EXECUTE 'CREATE DATABASE hotel_booking';
+END;
+$$;
+
+-- Удаление базы данных
+CREATE OR REPLACE PROCEDURE deleteDatabase()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    EXECUTE 'DROP DATABASE IF EXISTS hotel_booking';
+END;
+$$;
+
+-- Создание таблицы пользователей
+CREATE TABLE IF NOT EXISTS users (
+    username VARCHAR PRIMARY KEY,
+    password VARCHAR NOT NULL,
+    role VARCHAR NOT NULL  -- 'guest' или 'admin'
+);
+
+-- Чистка таблицы
+CREATE OR REPLACE PROCEDURE clearTable()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    TRUNCATE TABLE your_table_name; -- Замените на имя вашей таблицы
+END;
+$$;
+
+-- Добавление данных
+CREATE OR REPLACE PROCEDURE addData(text_field VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO your_table_name (text_field) VALUES (text_field);
+END;
+$$;
+
+-- Поиск по полю
+CREATE OR REPLACE FUNCTION searchByField(search_text VARCHAR)
+RETURNS TABLE(id INT, text_field VARCHAR) AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM your_table_name WHERE text_field ILIKE '%' || search_text || '%';
+END;
+$$ LANGUAGE plpgsql;
+
+-- Обновление данных
+CREATE OR REPLACE PROCEDURE updateData(old_text VARCHAR, new_text VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE your_table_name SET text_field = new_text WHERE text_field = old_text;
+END;
+$$;
+
+-- Удаление данных
+CREATE OR REPLACE PROCEDURE deleteData(text_field VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM your_table_name WHERE text_field = text_field;
+END;
+$$;
+
+-- Создание пользователя
+CREATE OR REPLACE PROCEDURE createUser(username VARCHAR, password VARCHAR, role VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO users (username, password, role) VALUES (username, password, role);
+END;
+$$;
